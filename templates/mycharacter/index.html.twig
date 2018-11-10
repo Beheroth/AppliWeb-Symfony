@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mycharacter index{% endblock %}
+
+{% block body %}
+    <h1>Mycharacter index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Health</th>
+                <th>MaxHealth</th>
+                <th>STR</th>
+                <th>WIS</th>
+                <th>DEX</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for mycharacter in mycharacters %}
+            <tr>
+                <td>{{ mycharacter.id }}</td>
+                <td>{{ mycharacter.name }}</td>
+                <td>{{ mycharacter.Health }}</td>
+                <td>{{ mycharacter.maxHealth }}</td>
+                <td>{{ mycharacter.STR }}</td>
+                <td>{{ mycharacter.WIS }}</td>
+                <td>{{ mycharacter.DEX }}</td>
+                <td>
+                    <a href="{{ path('mycharacter_show', {'id': mycharacter.id}) }}">show</a>
+                    <a href="{{ path('mycharacter_edit', {'id': mycharacter.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('mycharacter_new') }}">Create new</a>
+{% endblock %}

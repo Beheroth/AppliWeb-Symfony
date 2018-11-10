@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mycharacter{% endblock %}
+
+{% block body %}
+    <h1>Mycharacter</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ mycharacter.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ mycharacter.name }}</td>
+            </tr>
+            <tr>
+                <th>Health</th>
+                <td>{{ mycharacter.Health }}</td>
+            </tr>
+            <tr>
+                <th>MaxHealth</th>
+                <td>{{ mycharacter.maxHealth }}</td>
+            </tr>
+            <tr>
+                <th>STR</th>
+                <td>{{ mycharacter.STR }}</td>
+            </tr>
+            <tr>
+                <th>WIS</th>
+                <td>{{ mycharacter.WIS }}</td>
+            </tr>
+            <tr>
+                <th>DEX</th>
+                <td>{{ mycharacter.DEX }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('mycharacter_index') }}">back to list</a>
+
+    <a href="{{ path('mycharacter_edit', {'id': mycharacter.id}) }}">edit</a>
+
+    {{ include('mycharacter/_delete_form.html.twig') }}
+{% endblock %}
