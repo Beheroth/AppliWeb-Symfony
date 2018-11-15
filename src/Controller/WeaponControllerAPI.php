@@ -47,17 +47,18 @@ class WeaponControllerAPI extends AbstractController
         $json = $request->getContent();
         $content = json_decode($json, true);
 
-        if (isset($content["name"]) && isset($content["damage"]) && isset($content["fKMycharacter"])) {
+        if (isset($content["name"]) && isset($content["damage"])) {
             $weapon->setName($content["name"]);
             $weapon->setDamage($content["damage"]);
-            $weapon->setFKMycharacter($content["fKMycharacter"])
+            $weapon->setFKMycharacter($content["fKMycharacter"]);
             $em = $this->getDoctrine()->getManager();
             $em->persist($weapon);
             $em->flush();
 
             $query['valid'] = true;
             $query['data'] = array(
-                'name' => $content["name"],                       'damage' => $content["damage"],
+                'name' => $content["name"],
+                'damage' => $content["damage"],
                 'fKMycharacter' => $content["fKMycharacter"]);
         }
 
@@ -85,30 +86,37 @@ class WeaponControllerAPI extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="weapon_edit_api", methods={"GET|POST"})
+     * @Route("/{id}/edit", name="weapon_edit_api", methods={"PUT"})
      */
     public function edit(Request $request, Weapon $weapon): Response
     {
         $response = new Response();
         $query = array();
 
-        if ($weapon != null && isset($content["name"]) && isset($content["damage"]) && isset($content["fKMycharacter"])) {
+        $json = $request->getContent();
+        $content = json_decode($json, true);
+
+        if (isset($content["name"]) && isset($content["damage"])) {
             $weapon->setName($content["name"]);
-            $weapon->setDamage($content["damage"]);
-            $weapon->setFKMycharacter($content["fKMycharacter"]);
+            $weapon->setDamage($content["damage"]);                $weapon->setFKMycharacter($content["fKMycharacter"]);
             $em = $this->getDoctrine()->getManager();
             $em->persist($weapon);
             $em->flush();
 
             $query['valid'] = true;
             $query['data'] = array(
-                'name' => $content["name"],                       'damage' => $content["damage"],
+                'id' => $content["id"],
+                'name' => $content["name"],
+                'damage' => $content["damage"],
                 'fKMycharacter' => $content["fKMycharacter"]);
         }
 
         else {
             $query['valid'] = false;
             $query['data'] = null;
+            $query['test_name'] = $content["name"];
+            $query['test_damage'] = $content["damage"];
+            $query['test_fKMycharacter'] = $content["fKMycharacter"];
         }
         $response->setContent(json_encode($query));
         return $response;
@@ -122,7 +130,7 @@ class WeaponControllerAPI extends AbstractController
         $response = new Response();
         $query = array();
 
-        if ($this->isCsrfTokenValid('delete'.$weapon->getId(), $request->request->get('_token'))) {
+        if ($weapon != null) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($weapon);
             $em->flush();
