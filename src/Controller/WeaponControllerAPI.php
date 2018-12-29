@@ -33,7 +33,7 @@ class WeaponControllerAPI extends AbstractController
         $response = new JsonResponse();
         $response->setContent($jsonContent);
         $response->headers->set('Content-Type', 'application/json');
-        $response->headers->set('Access-Control-Allow-Origin', 'http://localhost:4200/weapons');
+        $response->headers->set('Access-Control-Allow-Origin', '*');
         return $response;
     }
 
@@ -70,6 +70,8 @@ class WeaponControllerAPI extends AbstractController
         }
 
         $response->setContent(json_encode($query));
+        $response->headers->set('Content-Type', 'application/json');
+        $response->headers->set('Access-Control-Allow-Origin', '*');
         return $response;
     }
 
@@ -84,11 +86,13 @@ class WeaponControllerAPI extends AbstractController
         $jsonContent = $serializer->serialize($weapon, 'json');
         $response = new JsonResponse();
         $response->setContent($jsonContent);
+        $response->headers->set('Content-Type', 'application/json');
+        $response->headers->set('Access-Control-Allow-Origin', '*');
         return $response;
     }
 
     /**
-     * @Route("/{id}/edit", name="weapon_edit_api", methods={"PUT"})
+     * @Route("/{id}/edit", name="weapon_edit_api", methods={"PUT", "OPTIONS"})
      */
     public function edit(Request $request, Weapon $weapon): Response
     {
@@ -121,11 +125,15 @@ class WeaponControllerAPI extends AbstractController
             $query['test_fKMycharacter'] = $content["fKMycharacter"];
         }
         $response->setContent(json_encode($query));
+        $response->headers->set('Content-Type', 'application/text');
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        $response->headers->set("Access-Control-Allow-Methods", "GET, OPTIONS, PUT");
+        $response->headers->set('Access-Control-Allow-Headers', 'Content-Type',true);
         return $response;
     }
 
     /**
-     * @Route("/{id}", name="weapon_delete_api", methods={"DELETE"})
+     * @Route("/{id}", name="weapon_delete_api", methods={"DELETE", "OPTIONS"})
      */
     public function delete(Request $request, Weapon $weapon): Response
     {
@@ -143,6 +151,8 @@ class WeaponControllerAPI extends AbstractController
             $query['valid'] = false;
         }
         $response->setContent(json_encode($query));
+        $response->headers->set('Content-Type', 'application/json');
+        $response->headers->set('Access-Control-Allow-Origin', '*');
         return $response;
     }
 }
