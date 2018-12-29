@@ -32,6 +32,8 @@ class WeaponControllerAPI extends AbstractController
         $jsonContent = $serializer->serialize($weapons, 'json');
         $response = new JsonResponse();
         $response->setContent($jsonContent);
+        $response->headers->set('Content-Type', 'application/json');
+        $response->headers->set('Access-Control-Allow-Origin', 'http://localhost:4200/weapons');
         return $response;
     }
 
