@@ -38,7 +38,7 @@ class WeaponControllerAPI extends AbstractController
     }
 
     /**
-     * @Route("/new", name="weapon_new_api", methods={"GET|POST"})
+     * @Route("/new", name="weapon_new_api", methods={"GET", "POST","OPTIONS"})
      */
     public function new(Request $request): Response
     {
@@ -72,6 +72,8 @@ class WeaponControllerAPI extends AbstractController
         $response->setContent(json_encode($query));
         $response->headers->set('Content-Type', 'application/json');
         $response->headers->set('Access-Control-Allow-Origin', '*');
+        $response->headers->set("Access-Control-Allow-Methods", "GET, OPTIONS, POST");
+        $response->headers->set('Access-Control-Allow-Headers', 'Content-Type',true);
         return $response;
     }
 
@@ -120,10 +122,8 @@ class WeaponControllerAPI extends AbstractController
         else {
             $query['valid'] = false;
             $query['data'] = null;
-            $query['test_name'] = $content["name"];
-            $query['test_damage'] = $content["damage"];
-            $query['test_fKMycharacter'] = $content["fKMycharacter"];
         }
+
         $response->setContent(json_encode($query));
         $response->headers->set('Content-Type', 'application/text');
         $response->headers->set('Access-Control-Allow-Origin', '*');
@@ -153,6 +153,8 @@ class WeaponControllerAPI extends AbstractController
         $response->setContent(json_encode($query));
         $response->headers->set('Content-Type', 'application/json');
         $response->headers->set('Access-Control-Allow-Origin', '*');
+        $response->headers->set("Access-Control-Allow-Methods", "GET, OPTIONS, DELETE");
+        $response->headers->set('Access-Control-Allow-Headers', 'Content-Type',true);
         return $response;
     }
 }
