@@ -21,21 +21,26 @@ class Scenario
     /**
      * @ORM\Column(type="string", length=1023, nullable=true)
      */
-    private $Description;
+    private $description;
 
     /**
      * @ORM\Column(type="string", length=64)
      */
-    private $GM;
+    private $gm;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Mycharacter")
      */
-    private $Mycharacters;
+    private $mycharacters;
+
+    /**
+     * @ORM\Column(type="string", length=64)
+     */
+    private $name;
 
     public function __construct()
     {
-        $this->Mycharacters = new ArrayCollection();
+        $this->mycharacters = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -45,40 +50,40 @@ class Scenario
 
     public function getDescription(): ?string
     {
-        return $this->Description;
+        return $this->description;
     }
 
-    public function setDescription(?string $Description): self
+    public function setDescription(?string $description): self
     {
-        $this->Description = $Description;
+        $this->description = $description;
 
         return $this;
     }
 
     public function getGM(): ?string
     {
-        return $this->GM;
+        return $this->gm;
     }
 
-    public function setGM(string $GM): self
+    public function setGM(string $gm): self
     {
-        $this->GM = $GM;
+        $this->gm = $gm;
 
         return $this;
     }
 
     /**
-     * @return Collection|Mycharacter[]
+     * @return Collection|mycharacter[]
      */
     public function getMycharacters(): Collection
     {
-        return $this->Mycharacters;
+        return $this->mycharacters;
     }
 
     public function addMycharacter(Mycharacter $mycharacter): self
     {
-        if (!$this->Mycharacters->contains($mycharacter)) {
-            $this->Mycharacters[] = $mycharacter;
+        if (!$this->mycharacters->contains($mycharacter)) {
+            $this->mycharacters[] = $mycharacter;
         }
 
         return $this;
@@ -86,9 +91,21 @@ class Scenario
 
     public function removeMycharacter(Mycharacter $mycharacter): self
     {
-        if ($this->Mycharacters->contains($mycharacter)) {
-            $this->Mycharacters->removeElement($mycharacter);
+        if ($this->mycharacters->contains($mycharacter)) {
+            $this->mycharacters->removeElement($mycharacter);
         }
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
 
         return $this;
     }

@@ -38,7 +38,7 @@ class ScenarioControllerAPI extends AbstractController
     }
 
     /**
-     * @Route("/new", name="scenario_new_api", methods="GET|POST")
+     * @Route("/new", name="scenario_new_api", methods={"GET", "POST","OPTIONS"})
      */
     public function new(Request $request): Response
     {
@@ -49,15 +49,20 @@ class ScenarioControllerAPI extends AbstractController
         $json = $request->getContent();
         $content = json_decode($json, true);
 
-        if (isset($content["GM"])) {
-            $scenario->setGM($content["GM"]);
+        if (isset($content["name"]) && isset($content["gM"])) {
+            $scenario->setName($content["name"]);
+            $scenario->setGM($content["gM"]);
+            $scenario->setDescription($content["description"]);
             $em = $this->getDoctrine()->getManager();
             $em->persist($scenario);
             $em->flush();
 
             $query['valid'] = true;
             $query['data'] = array(
-                'GM' => $content["GM"]);
+                'description' => $content["description"],
+                'gm' => $content["gM"],
+                'mycharacters' => $content["mycharacters"],
+                'name' => $content["name"]);
         }
 
         else {
@@ -100,8 +105,11 @@ class ScenarioControllerAPI extends AbstractController
          $json = $request->getContent();
          $content = json_decode($json, true);
 
-         if (true) {
-             $scenario->setDescription($content["Description"]);
+         if (isset($content["name"]) && isset($content["name"])) {
+             $scenario->setDescription($content["description"]);
+             $scenario->setGM($content["gM"]);
+             //add mycharacters
+             $scenario->setName($content["name"]);
              $em = $this->getDoctrine()->getManager();
              $em->persist($scenario);
              $em->flush();
@@ -109,9 +117,10 @@ class ScenarioControllerAPI extends AbstractController
              $query['valid'] = true;
              $query['data'] = array(
                  'id' => $content["id"],
-                 'Description' => $content["Description"],
-                 'GM' => $content["GM"],
-                 'Mycharacters' => $content["Mycharacters"]);
+                 'description' => $content["description"],
+                 'gm' => $content["gM"],
+                 'mycharacters' => $content["mycharacters"],
+                 'name' => $content["name"]);
          }
 
          else {
